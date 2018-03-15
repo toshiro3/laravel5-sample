@@ -10,6 +10,8 @@ phases:
       - echo "pre_build start"
       - composer install
       - composer dump-autoload
+      - cp .env-sample .env
+      - php artisan key:generate
   build:
     commands:
       - echo "build start"
