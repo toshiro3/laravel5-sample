@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  #install:
+    #commands:
+      # - command
+      # - command
+  pre_build:
+    commands:
+      - echo "pre_build start"
+      - composer install
+      - composer dump-autoload
+  build:
+    commands:
+      - echo "build start"
+      - vendor/bin/phpunit
+  post_build:
+    commands:
+      - echo "post_build start"
