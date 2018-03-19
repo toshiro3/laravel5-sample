@@ -13,7 +13,6 @@ phases:
   build:
     commands:
       - echo "build start"
-      - vendor/bin/phpunit
   post_build:
     commands:
       - echo "post_build start"
