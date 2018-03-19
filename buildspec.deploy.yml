@@ -17,3 +17,5 @@ phases:
     commands:
       - echo "post_build start"
       - printf '[{"name":"$ECS_TASK_NAME","imageUri":"$REPOSITORY_URI:$IMAGE_TAG"}]' > imagedefinitions.json
+  artifacts:
+    files: imagedefinitions.json
