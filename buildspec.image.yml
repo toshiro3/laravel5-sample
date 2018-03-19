@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  #install:
+    #commands:
+      # - command
+      # - command
+  pre_build:
+    commands:
+      - echo "pre_build start"
+      - cd ../
+      - aws s3 cp --quiet s3://output.codebuild.beer-log.net/laravel5-docker.zip .
+      - unzip -q laravel5-docker.zip
+      - cp -R laravel5-sample laravel5-docker/app/
+      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
+      - IMAGE_TAG=latest
+  build:
+    commands:
+      - echo "build start"
+      - cd laravel5-docker/app/
+      - docker build -t $IMAGE_REPO_NAME
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $REPOSITORY_URI/$IMAGE_REPO_NAME:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo "post_build start"
+      - docker push $REPOSITORY_URI/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - printf '[{"name":"%s","imageUri":"%s"}]' $ECS_TASK_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
