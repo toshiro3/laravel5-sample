@@ -8,21 +8,14 @@ phases:
   pre_build:
     commands:
       - echo "pre_build start"
-      - echo $AWS_ACCOUNT_ID
-      - echo $AWS_DEFAULT_REGION
-      - echo $IMAGE_REPO_NAME
       - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
       - IMAGE_TAG=latest
-      - echo $REPOSITORY_URI
-      - echo IMAGE_TAG
   build:
     commands:
       - echo "build start"
   post_build:
     commands:
       - echo "post_build start"
-      - echo $ECS_TASK_NAME
-      - echo $REPOSITORY_URI:$IMAGE_TAG
       - printf '[{"name":"%s","imageUri":"%s"}]' $ECS_TASK_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
   files: imagedefinitions.json
