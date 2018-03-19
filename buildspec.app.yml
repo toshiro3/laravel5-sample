@@ -1,10 +1,10 @@
 version: 0.2
 
 phases:
-  #install:
-    #commands:
-      # - command
-      # - command
+  install:
+    commands:
+      - echo "install start"
+      - apt-get -yq update && apt-get -yq intall zip
   pre_build:
     commands:
       - echo "pre_build start"
