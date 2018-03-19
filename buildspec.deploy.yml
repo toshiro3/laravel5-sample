@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  #install:
+    #commands:
+      # - command
+      # - command
+  pre_build:
+    commands:
+      - echo "pre_build start"
+      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
+      - IMAGE_TAG=latest
+  build:
+    commands:
+      - echo "build start"
+      - vendor/bin/phpunit
+  post_build:
+    commands:
+      - echo "post_build start"
+      - printf '[{"name":"$ECS_TASK_NAME","imageUri":"$REPOSITORY_URI:$IMAGE_TAG"}]' > imagedefinitions.json
