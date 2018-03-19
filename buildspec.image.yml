@@ -18,7 +18,7 @@ phases:
     commands:
       - echo "build start"
       - cd laravel5-docker/app/
-      sed -i -e "s/_AWS_ACCOUNT_ID_/$AWS_ACCOUNT_ID/g" -e "s/_AWS_DEFAULT_REGION_/$AWS_DEFAULT_REGION/g" -e "s/_IMAGE_REPO_NAME_/$SRC_IMAGE_REPO_NAME/g" -e "s/_IMAGE_TAG_/$IMAGE_TAG/g" Dockerfile
+      - sed -i -e "s/_AWS_ACCOUNT_ID_/$AWS_ACCOUNT_ID/g" -e "s/_AWS_DEFAULT_REGION_/$AWS_DEFAULT_REGION/g" -e "s/_IMAGE_REPO_NAME_/$SRC_IMAGE_REPO_NAME/g" -e "s/_IMAGE_TAG_/$IMAGE_TAG/g" Dockerfile
       - docker build -t $DEST_IMAGE_REPO_NAME .
       - docker tag $DEST_IMAGE_REPO_NAME:$IMAGE_TAG $REPOSITORY_URI:$IMAGE_TAG
   post_build:
