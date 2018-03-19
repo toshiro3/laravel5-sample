@@ -4,7 +4,7 @@ phases:
   install:
     commands:
       - echo "install start"
-      - apt-get -yq update && apt-get -yq intall zip
+      - apt-get -yq update && apt-get -yq install zip
   pre_build:
     commands:
       - echo "pre_build start"
