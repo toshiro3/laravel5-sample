@@ -1,10 +1,10 @@
 version: 0.2
 
 phases:
-  install:
-    commands:
-      - echo "install start"
-      - apt-get -yq update && apt-get -yq install zip
+  #install:
+    #commands:
+      # - command
+      # - command
   pre_build:
     commands:
       - echo "pre_build start"
@@ -16,12 +16,11 @@ phases:
     commands:
       - echo "build start"
       - vendor/bin/phpunit
-  post_build:
-    commands:
-      - echo "post_build start"
-      - mkdir build
-      - zip -rq build/laravel5-sample.zip . -x build
+  #post_build:
+    #commands:
+      #- command
+      #- command
 artifacts:
   files:
-    - build/laravel5-sample.zip
-  discard-paths: yes
+    - '**/*'
+  discard-paths: false
