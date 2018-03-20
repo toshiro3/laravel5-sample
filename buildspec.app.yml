@@ -16,9 +16,9 @@ phases:
     commands:
       - echo "build start"
       - vendor/bin/phpunit
-  #post_build:
-    #commands:
-      #- command
+  post_build:
+    commands:
+     - echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7 > version.txt
       #- command
 artifacts:
   files:

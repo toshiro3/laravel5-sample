@@ -17,11 +17,9 @@ phases:
       - unzip -q laravel5-docker.zip -d ../laravel5-docker
       - mkdir -p ../laravel5-docker/app/laravel5-sample
       - cp -R . ../laravel5-docker/app/laravel5-sample/
-      - ls -l
-      - ls -l ../laravel5-docker
-      - ls -l ../laravel5-docker/app
       - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$DEST_IMAGE_REPO_NAME
-      - DEST_IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - DEST_IMAGE_TAG=$(cat version.txt)
+      - echo $DEST_IMAGE_TAG
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
   build:
     commands:
