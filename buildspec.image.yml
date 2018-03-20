@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     DOCKERFILE_URI: "s3://output.codebuild.beer-log.net/build-base-app-image/laravel5-docker.zip"
-    SRC_IMAGE_TAG=latest
+    SRC_IMAGE_TAG: "latest"
 phases:
   #install:
     #commands:
