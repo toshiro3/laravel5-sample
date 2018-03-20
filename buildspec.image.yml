@@ -1,5 +1,8 @@
 version: 0.2
 
+env:
+  variables:
+    DOCKERFILE_URI: "s3://output.codebuild.beer-log.net/build-base-app-image/laravel5-docker.zip"
 phases:
   #install:
     #commands:
@@ -8,17 +11,21 @@ phases:
   pre_build:
     commands:
       - echo "pre_build start"
-      - cd ../
-      - aws s3 cp --quiet s3://output.codebuild.beer-log.net/laravel5-docker.zip .
-      - unzip -q laravel5-docker.zip
-      - cp -R laravel5-sample laravel5-docker/app/
+      - mkdir -p ../laravel5-docker
+      - aws s3 cp --quiet $DOCKERFILE_URI .
+      - unzip -q laravel5-docker.zip -d ../laravel5-docker
+      - mkdir -p ../laravel5-docker/app/laravel5-sample
+      - cp -R . ../laravel5-docker/app/laravel5-sample/
+      - ls -l
+      - ls -l ../laravel5-docker
+      - ls -l ../laravel5-docker/app
       - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$DEST_IMAGE_REPO_NAME
       - IMAGE_TAG=latest
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
   build:
     commands:
       - echo "build start"
-      - cd laravel5-docker/app/
+      - cd ../laravel5-docker/app/
       - sed -i -e "s/_AWS_ACCOUNT_ID_/$AWS_ACCOUNT_ID/g" -e "s/_AWS_DEFAULT_REGION_/$AWS_DEFAULT_REGION/g" -e "s/_IMAGE_REPO_NAME_/$SRC_IMAGE_REPO_NAME/g" -e "s/_IMAGE_TAG_/$IMAGE_TAG/g" Dockerfile
       - docker build -t $DEST_IMAGE_REPO_NAME .
       - docker tag $DEST_IMAGE_REPO_NAME:$IMAGE_TAG $REPOSITORY_URI:$IMAGE_TAG
@@ -26,6 +33,7 @@ phases:
     commands:
       - echo "post_build start"
       - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - cd $CODEBUILD_SRC_DIR
       - printf '[{"name":"%s","imageUri":"%s"}]' $ECS_TASK_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
   files: imagedefinitions.json
