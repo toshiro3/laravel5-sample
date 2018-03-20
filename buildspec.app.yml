@@ -19,10 +19,9 @@ phases:
   post_build:
     commands:
       - echo "post_build start"
-      - cd ../
-      - zip -rq laravel5-sample.zip laravel5-sample
+      - mkdir build
+      - zip -rq build/laravel5-sample.zip . -x build
 artifacts:
   files:
-    - ../laravel5-sample.zip
-  # discard-paths: yes
-  # base-directory: location
+    - build/laravel5-sample.zip
+  discard-paths: yes
