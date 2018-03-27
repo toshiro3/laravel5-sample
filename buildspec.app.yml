@@ -18,7 +18,6 @@ phases:
       - vendor/bin/phpunit
   post_build:
     commands:
-     - chmod +x scripts/*.sh
      - echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7 > version.txt
 artifacts:
   files:
