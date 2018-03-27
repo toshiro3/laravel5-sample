@@ -27,12 +27,16 @@ set('allow_anonymous_stats', false);
 
 localhost()
     ->set('deploy_path', '/home/ec2-user/{{application}}')
-    ->set('release_name', getenv('$DEPLOYMENT_ID'));
+    ->set('build_path', '{{deploy_path}}/build');
 
 // Tasks
 
 task('build', function () {
     run('cd {{release_path}} && build');
+});
+
+task('update_code', function () {
+    run("cp -Rf {{build_path}}/* {{release_path}}/");
 });
 
 desc('Deploy batch');
@@ -41,7 +45,7 @@ task('deploy_batch', [
     'deploy:prepare',
     'deploy:lock',
     'deploy:release',
-    //'deploy:update_code',
+    'update_code',
     'deploy:shared',
     'deploy:vendors',
     'deploy:writable',

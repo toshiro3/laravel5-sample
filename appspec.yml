@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/laravel5-sample/releases/tmp
+    destination: /home/ec2-user/laravel5-sample/build
 hooks:
   AfterInstall:
     - location: scripts/after_install.sh
