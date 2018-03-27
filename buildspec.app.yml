@@ -19,8 +19,7 @@ phases:
   post_build:
     commands:
      - echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7 > version.txt
-     - tar zcf ../laravel5-sample.tgz .
 artifacts:
   files:
-    - '../laravel5-sample.tgz'
+    - '**/*'
   discard-paths: false
